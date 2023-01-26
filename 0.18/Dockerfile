@@ -21,7 +21,7 @@ RUN set -ex \
     gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" ; \
   done
 
-ENV DASH_VERSION=0.18.0.0-rc5
+ENV DASH_VERSION=18.2.1
 
 WORKDIR /build
 
@@ -33,9 +33,9 @@ RUN tar -xzf *.tar.gz
 
 # copy Dash binaries to /binaries
 RUN mkdir /binaries
-RUN cp dashcore-${DASH_VERSION%.*}/bin/dashd /binaries
-RUN cp dashcore-${DASH_VERSION%.*}/bin/dash-cli /binaries
-RUN cp dashcore-${DASH_VERSION%.*}/bin/dash-tx /binaries
+RUN cp dashcore-${DASH_VERSION}/bin/dashd /binaries
+RUN cp dashcore-${DASH_VERSION}/bin/dash-cli /binaries
+RUN cp dashcore-${DASH_VERSION}/bin/dash-tx /binaries
 
 
 # Build stage
