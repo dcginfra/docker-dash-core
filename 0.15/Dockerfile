@@ -8,7 +8,6 @@ RUN apt-get install -y wget gnupg
 # 83592BD1400D58D9 : udjinm6
 # 4B88269ABD8DF332 : schinzelh
 # AAE1CD6BA06E985C : nmarley
-# 52527BEDABE87984 : pasta
 
 RUN set -ex \
   && for key in \
@@ -16,7 +15,6 @@ RUN set -ex \
     83592BD1400D58D9 \
     4B88269ABD8DF332 \
     AAE1CD6BA06E985C \
-    52527BEDABE87984 \
   ; do \
     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "$key" || \
     gpg --batch --keyserver pgp.mit.edu --recv-keys "$key" || \
@@ -25,7 +23,7 @@ RUN set -ex \
     gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" ; \
   done
 
-ENV DASH_VERSION=0.17.0.3
+ENV DASH_VERSION=0.15.0.0
 
 WORKDIR /build
 

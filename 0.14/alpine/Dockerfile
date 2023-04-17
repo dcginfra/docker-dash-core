@@ -14,23 +14,22 @@ RUN apk --no-cache --update add \
     libexecinfo-dev \
     libexecinfo-static \
     libtool \
-    linux-headers \
     make \
-    patch \
     perl \
     pkgconfig \
     python3
 
 WORKDIR /build
 
-RUN git clone -b v0.18.0.0-rc5 https://github.com/dashpay/dash.git /build
+# RUN git clone -b develop https://github.com/dashpay/dash.git /build
+RUN git clone -b 0.14.0.3-alpine https://github.com/nmarley/dash.git /build
 
 RUN cd depends && make NO_QT=1 -j32
 
-RUN sed -i s:sys/fcntl.h:fcntl.h: src/compat.h
+#RUN sed -i s:sys/fcntl.h:fcntl.h: src/compat.h
 RUN ./autogen.sh
 
-RUN ./configure --prefix=$PWD/depends/x86_64-pc-linux-gnu --without-gui --disable-stacktraces RELDFLAGS="-static --static"
+RUN ./configure --prefix=$PWD/depends/x86_64-pc-linux-gnu --without-gui RELDFLAGS="-static --static"
 
 RUN make -j32
 RUN strip $PWD/src/dash-cli
@@ -55,7 +54,13 @@ COPY docker-entrypoint.sh /entrypoint.sh
 
 VOLUME ["/home/dash/.dashcore"]
 
-EXPOSE 9999 9998 19999 19998 19899 19898 19799 19798
+EXPOSE 9999 9998 19999 19998 19994 18332
+# new ports 19899 19898 19799 19798
+
+# pre-14.1 regtest = 19994 / 18332
+# 14.1+    regtest = 19899 / 19898
+# pre-14.1  devnet = 19999 / 19998
+# 14.1+     devnet = 19799 / 19798
 
 ENTRYPOINT ["/entrypoint.sh"]
 
